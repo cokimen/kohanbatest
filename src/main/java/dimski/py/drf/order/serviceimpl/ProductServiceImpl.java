@@ -35,10 +35,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductById(UUID productId) {
         Optional<Product> p = productJPARepo.findById(productId);
-        if(p.isPresent()){
-            return p.get();
-        }
-        return null;
+        return p.isPresent() ? p.get(): null;
     }
 
     public ArrayList<Product> getProducts(){
@@ -48,9 +45,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product deleteProduct(UUID productId) {
         Optional<Product> product = productJPARepo.findById(productId);
-        product.ifPresent(x -> {
-            productJPARepo.deleteById(x.getId());
-        });
-        return product.get();
+        product.ifPresent(x -> productJPARepo.deleteById(x.getId()));
+        return product.isPresent() ? product.get() : null;
     }
 }

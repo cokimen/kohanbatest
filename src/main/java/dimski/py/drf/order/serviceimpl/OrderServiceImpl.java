@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -43,6 +44,23 @@ public class OrderServiceImpl implements OrderService {
             productJPARepo.save(product.get());
             order = orderJPARepo.save(order);
         }
+        return order;
+    }
+
+    @Override
+    public ArrayList<Order> getOrders() {
+        return (ArrayList<Order>) orderJPARepo.findAll();
+    }
+
+    @Override
+    public Order getOrder(UUID orderId) {
+        return orderJPARepo.findById(orderId).get();
+    }
+
+    @Override
+    public Order updateOrder(Order order) {
+        order = orderJPARepo.findById(order.getOrderId()).get();
+        orderJPARepo.deleteById(order.getOrderId());
         return order;
     }
 }
